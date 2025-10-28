@@ -1,4 +1,4 @@
-import { api } from "@/api";
+import { api, type ApiResponse } from "@/api";
 import type {
   LoginRequest,
   CognitoLoginResponse,
@@ -9,45 +9,41 @@ import type {
   SignUpResponse,
 } from "../types";
 
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
-
 export const authApi = {
-  signUp: async (data: SignUpRequest): Promise<SignUpResponse> => {
+  signUp: async (data: SignUpRequest): Promise<ApiResponse<SignUpResponse>> => {
     const response = await api.post<ApiResponse<SignUpResponse>>(
       "/auth/sign-up",
       data
     );
-    const { data: signUpResponse } = response.data;
+    const { data: signUpResponse } = response;
     return signUpResponse;
   },
 
-  login: async (data: LoginRequest): Promise<CognitoLoginResponse> => {
+  login: async (
+    data: LoginRequest
+  ): Promise<ApiResponse<CognitoLoginResponse>> => {
     const response = await api.post<ApiResponse<CognitoLoginResponse>>(
       "/auth/sign-in",
       data
     );
-    const { data: loginResponse } = response.data;
+    const { data: loginResponse } = response;
     return loginResponse;
   },
 
   confirmSignUp: async (
     data: ConfirmSignUpRequest
-  ): Promise<ConfirmSignUpResponse> => {
+  ): Promise<ApiResponse<ConfirmSignUpResponse>> => {
     const response = await api.post<ApiResponse<ConfirmSignUpResponse>>(
       "/auth/confirm-sign-up",
       data
     );
-    const { data: confirmSignUpResponse } = response.data;
+    const { data: confirmSignUpResponse } = response;
     return confirmSignUpResponse;
   },
 
-  getMe: async (): Promise<User> => {
+  getMe: async (): Promise<ApiResponse<User>> => {
     const response = await api.get<ApiResponse<User>>("/users/profile");
-    const { data: user } = response.data;
+    const { data: user } = response;
     return user;
   },
 };

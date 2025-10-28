@@ -7,19 +7,33 @@ export const authService = {
     const data = { email, password };
     const apiResponse = await authApi.login(data);
 
-    storage.set("token", apiResponse.idToken);
-    storage.set("accessToken", apiResponse.accessToken);
-    storage.set("refreshToken", apiResponse.refreshToken);
+    if (!apiResponse || !apiResponse.data) {
+      console.error("Resposta inválida da API:", apiResponse);
+      throw new Error("Resposta inválida do servidor");
+    }
+
+    const { idToken, accessToken, refreshToken } = apiResponse.data;
+
+    if (!idToken || !accessToken || !refreshToken) {
+      console.error("Tokens ausentes na resposta:", apiResponse.data);
+      throw new Error("Tokens de autenticação não recebidos");
+    }
+
+    storage.set("token", idToken);
+    storage.set("accessToken", accessToken);
+    storage.set("refreshToken", refreshToken);
 
     try {
-      const user = await authApi.getMe();
+      const userResponse = await authApi.getMe();
+      const user = userResponse.data;
       storage.set("user", user);
 
       return {
         user,
-        token: apiResponse.idToken,
+        token: idToken,
       };
     } catch (error) {
+      console.error("Erro ao obter usuário:", error);
       const basicUser: User = {
         userId: email,
         name: email.split("@")[0],
@@ -30,7 +44,7 @@ export const authService = {
 
       return {
         user: basicUser,
-        token: apiResponse.idToken,
+        token: idToken,
       };
     }
   },
@@ -43,7 +57,8 @@ export const authService = {
   },
 
   getMe: async (): Promise<User> => {
-    const user = await authApi.getMe();
+    const userResponse = await authApi.getMe();
+    const user = userResponse.data;
     storage.set("user", user);
     return user;
   },

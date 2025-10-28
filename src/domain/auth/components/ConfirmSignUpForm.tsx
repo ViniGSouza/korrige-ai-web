@@ -46,7 +46,7 @@ export const ConfirmSignUpForm = () => {
   const onSubmit = async (data: ConfirmSignUpFormData) => {
     try {
       const response = await confirmSignUp(data);
-      setSuccessMessage(response.message);
+      setSuccessMessage(response.message || "Registro confirmado com sucesso!");
 
       setTimeout(() => {
         navigate("/login");

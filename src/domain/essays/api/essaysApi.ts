@@ -1,4 +1,4 @@
-import { api } from "@/api";
+import { api, type ApiResponse } from "@/api";
 import type {
   Essay,
   CreateEssayRequest,
@@ -12,20 +12,20 @@ export const essaysApi = {
     limit?: number;
     nextToken?: string;
   }): Promise<ListEssaysResponse> {
-    const response = await api.get<ListEssaysResponse>("/essays", {
+    const response = await api.get<ApiResponse<ListEssaysResponse>>("/essays", {
       params,
     });
-    return response.data || { essays: [], count: 0 };
+    return response.data.data || { essays: [], total: 0 };
   },
 
   async getById(essayId: string): Promise<Essay> {
-    const response = await api.get<Essay>(`/essays/${essayId}`);
-    return response.data;
+    const response = await api.get<ApiResponse<Essay>>(`/essays/${essayId}`);
+    return response.data.data;
   },
 
   async create(data: CreateEssayRequest): Promise<Essay> {
-    const response = await api.post<Essay>("/essays", data);
-    return response.data;
+    const response = await api.post<ApiResponse<Essay>>("/essays", data);
+    return response.data.data;
   },
 
   async delete(essayId: string): Promise<void> {
@@ -33,11 +33,11 @@ export const essaysApi = {
   },
 
   async getUploadUrl(data: UploadUrlRequest): Promise<UploadUrlResponse> {
-    const response = await api.post<UploadUrlResponse>(
+    const response = await api.post<ApiResponse<UploadUrlResponse>>(
       "/essays/upload-url",
       data
     );
-    return response.data;
+    return response.data.data;
   },
 
   async uploadFile(uploadUrl: string, file: File): Promise<void> {

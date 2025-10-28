@@ -1,6 +1,17 @@
+import { lazy, Suspense } from "react";
 import type { AppRouteObject } from "@/shared/types";
-import { LoginPage, SignUpPage, ConfirmSignUpPage } from "../pages";
 import { Navigate } from "react-router-dom";
+import { PageLoader } from "@/shared/components";
+
+const LoginPage = lazy(() =>
+  import("../pages").then((module) => ({ default: module.LoginPage }))
+);
+const SignUpPage = lazy(() =>
+  import("../pages").then((module) => ({ default: module.SignUpPage }))
+);
+const ConfirmSignUpPage = lazy(() =>
+  import("../pages").then((module) => ({ default: module.ConfirmSignUpPage }))
+);
 
 export const authRoutes: AppRouteObject[] = [
   {
@@ -9,14 +20,26 @@ export const authRoutes: AppRouteObject[] = [
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <LoginPage />
+      </Suspense>
+    ),
   },
   {
     path: "/sign-up",
-    element: <SignUpPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <SignUpPage />
+      </Suspense>
+    ),
   },
   {
     path: "/confirm-sign-up",
-    element: <ConfirmSignUpPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <ConfirmSignUpPage />
+      </Suspense>
+    ),
   },
 ];

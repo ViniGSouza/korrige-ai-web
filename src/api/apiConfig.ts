@@ -22,15 +22,7 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (response) => {
-    if (
-      response.data?.success !== undefined &&
-      response.data?.data !== undefined
-    ) {
-      return { ...response, data: response.data.data };
-    }
-    return response;
-  },
+  (response) => response,
   (error) => {
     if (error.response) {
       const message =

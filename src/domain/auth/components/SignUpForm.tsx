@@ -44,7 +44,7 @@ export const SignUpForm = () => {
         phoneNumber: data.phoneNumber,
       });
 
-      if (!response.userConfirmed) {
+      if (!response.data.userConfirmed) {
         setRegisteredEmail(data.email);
         setTimeout(() => {
           navigate(`/confirm-sign-up?email=${encodeURIComponent(data.email)}`);

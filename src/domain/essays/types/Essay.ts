@@ -60,5 +60,6 @@ export interface UploadUrlResponse {
 
 export interface ListEssaysResponse {
   essays: Essay[];
+  total?: number;
   nextToken?: string;
 }

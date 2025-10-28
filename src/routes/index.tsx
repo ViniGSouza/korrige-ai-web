@@ -1,23 +1,37 @@
+import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
-import { AppLayout } from "@/layouts";
-import { ProtectedRoute } from "@/shared/components";
+import { ProtectedRoute, PageLoader } from "@/shared/components";
 import type { AppRouteObject } from "@/shared/types";
 import { authRoutes } from "@/domain/auth/routes";
 import { dashboardRoutes } from "@/domain/dashboard/routes";
 import { essaysRoutes } from "@/domain/essays/routes";
-import { LandingPage } from "@/pages/public/LandingPage";
+
+const LandingPage = lazy(() =>
+  import("@/pages/public/LandingPage").then((module) => ({
+    default: module.LandingPage,
+  }))
+);
+const AppLayout = lazy(() =>
+  import("@/layouts").then((module) => ({ default: module.AppLayout }))
+);
 
 export const routes: AppRouteObject[] = [
   {
     path: "/",
-    element: <LandingPage />,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <LandingPage />
+      </Suspense>
+    ),
   },
   ...authRoutes,
   {
     path: "/app",
     element: (
       <ProtectedRoute>
-        <AppLayout />
+        <Suspense fallback={<PageLoader />}>
+          <AppLayout />
+        </Suspense>
       </ProtectedRoute>
     ),
     children: [
