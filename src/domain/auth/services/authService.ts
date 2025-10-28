@@ -1,5 +1,5 @@
 import { authApi } from "../api/authApi";
-import type { LoginRequest, LoginResponse, User } from "../types";
+import type { LoginResponse, User } from "../types";
 import { storage } from "@/core/storage";
 
 export const authService = {

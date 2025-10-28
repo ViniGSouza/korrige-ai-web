@@ -1,7 +1,6 @@
 import { api } from "@/api";
 import type {
   LoginRequest,
-  LoginResponse,
   CognitoLoginResponse,
   User,
   ConfirmSignUpRequest,
@@ -22,7 +21,8 @@ export const authApi = {
       "/auth/sign-up",
       data
     );
-    return response.data;
+    const { data: signUpResponse } = response.data;
+    return signUpResponse;
   },
 
   login: async (data: LoginRequest): Promise<CognitoLoginResponse> => {
@@ -30,7 +30,8 @@ export const authApi = {
       "/auth/sign-in",
       data
     );
-    return response.data;
+    const { data: loginResponse } = response.data;
+    return loginResponse;
   },
 
   confirmSignUp: async (
@@ -40,11 +41,13 @@ export const authApi = {
       "/auth/confirm-sign-up",
       data
     );
-    return response.data;
+    const { data: confirmSignUpResponse } = response.data;
+    return confirmSignUpResponse;
   },
 
   getMe: async (): Promise<User> => {
     const response = await api.get<ApiResponse<User>>("/users/profile");
-    return response.data;
+    const { data: user } = response.data;
+    return user;
   },
 };

@@ -82,7 +82,7 @@ export const essayService = {
     return labels[status] || status;
   },
 
-  getProviderLabel(provider?: "claude" | "openai"): string {
+  getProviderLabel(_provider?: "claude" | "openai"): string {
     return "Agente Especializado";
   },
 
