@@ -23,6 +23,7 @@ import {
 } from "@/shared/components/ui/card";
 import { useEssays } from "@/domain/essays/hooks";
 import { useAuthUser } from "@/domain/auth/hooks";
+import { UsageMeter, SubscriptionBadge } from "@/domain/subscription/components";
 
 export function DashboardPage() {
   const navigate = useNavigate();
@@ -148,6 +149,7 @@ export function DashboardPage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
+              <SubscriptionBadge />
               <Button
                 onClick={() => navigate("/app/essays/new")}
                 size="lg"
@@ -170,7 +172,10 @@ export function DashboardPage() {
         </section>
 
         {/* Stats Cards com glassmorphism */}
-        <section className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+        <section className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-6">
+          <div className="md:col-span-2 lg:col-span-1">
+            <UsageMeter />
+          </div>
           {stats.map((stat) => {
             const Icon = stat.icon;
             return (
@@ -200,7 +205,7 @@ export function DashboardPage() {
                 </CardContent>
               </Card>
             );
-          })}
+          }).slice(0, 5)}
         </section>
 
         {/* Como Funciona - Design mais visual */}

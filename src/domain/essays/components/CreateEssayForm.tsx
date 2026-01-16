@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { useCreateEssay } from "../hooks";
 import { createEssaySchema, type CreateEssayFormData } from "../schemas";
 import { FileDropzone } from "./FileDropzone";
+import { UpsellModal } from "@/domain/subscription/components";
 
 interface CreateEssayFormProps {
   onSuccess?: () => void;
@@ -17,6 +18,7 @@ interface CreateEssayFormProps {
 export function CreateEssayForm({ onSuccess }: CreateEssayFormProps) {
   const [inputType, setInputType] = useState<"text" | "file">("text");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showUpsell, setShowUpsell] = useState(false);
 
   const {
     register,
@@ -50,7 +52,11 @@ export function CreateEssayForm({ onSuccess }: CreateEssayFormProps) {
       reset();
       setSelectedFile(null);
       onSuccess?.();
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = error?.message || "";
+      if (errorMessage.includes("limite") || errorMessage.includes("gratuita")) {
+        setShowUpsell(true);
+      }
       console.error("Error creating essay:", error);
     }
   };
@@ -208,6 +214,8 @@ export function CreateEssayForm({ onSuccess }: CreateEssayFormProps) {
           </p>
         </div>
       )}
+
+      <UpsellModal open={showUpsell} onOpenChange={setShowUpsell} />
     </form>
   );
 }

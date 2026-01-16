@@ -5,6 +5,7 @@ import type { AppRouteObject } from "@/shared/types";
 import { authRoutes } from "@/domain/auth/routes";
 import { dashboardRoutes } from "@/domain/dashboard/routes";
 import { essaysRoutes } from "@/domain/essays/routes";
+import { subscriptionRoutes } from "@/domain/subscription/routes";
 
 const LandingPage = lazy(() =>
   import("@/pages/public/LandingPage").then((module) => ({
@@ -25,6 +26,7 @@ export const routes: AppRouteObject[] = [
     ),
   },
   ...authRoutes,
+  ...subscriptionRoutes,
   {
     path: "/app",
     element: (
