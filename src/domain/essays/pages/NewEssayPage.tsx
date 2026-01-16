@@ -1,10 +1,25 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Sparkles, PenTool, Upload, Brain, Target } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { CreateEssayForm } from "../components";
+import { useSubscription } from "@/domain/subscription/hooks";
+import { UpsellModal } from "@/domain/subscription/components";
 
 export function NewEssayPage() {
   const navigate = useNavigate();
+  const { essaysUsed, essaysLimit, isSubscriber, freeEssayUsed } = useSubscription();
+  const [showUpsell, setShowUpsell] = useState(false);
+
+  const canCreateEssay = isSubscriber 
+    ? essaysUsed < essaysLimit 
+    : !freeEssayUsed;
+
+  useEffect(() => {
+    if (!canCreateEssay) {
+      setShowUpsell(true);
+    }
+  }, [canCreateEssay]);
 
   const handleSuccess = () => {
     navigate("/app/essays");
@@ -145,6 +160,16 @@ export function NewEssayPage() {
           </div>
         </div>
       </div>
+
+      <UpsellModal 
+        open={showUpsell} 
+        onOpenChange={(open) => {
+          setShowUpsell(open);
+          if (!open && !canCreateEssay) {
+            navigate("/app/essays");
+          }
+        }} 
+      />
     </div>
   );
 }

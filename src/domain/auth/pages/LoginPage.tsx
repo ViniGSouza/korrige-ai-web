@@ -1,5 +1,5 @@
 import { LoginForm } from "@/domain/auth";
-import { Sparkles, Target, FileText, CheckCircle } from "lucide-react";
+import { Sparkles, Target, FileText, CheckCircle, Gift, Crown } from "lucide-react";
 import Logo from "@/brand/Logo";
 import { ThemeToggle } from "@/shared/components/ui/theme-toggle";
 import { Link } from "react-router-dom";
@@ -91,19 +91,15 @@ export const LoginPage = () => {
               })}
             </div>
 
-            {/* Stats */}
-            <div className="flex gap-8 pt-8 border-t border-border/50">
-              <div>
-                <div className="text-3xl font-bold text-foreground">1000</div>
-                <div className="text-sm text-muted-foreground">Nota máxima</div>
+            {/* Planos */}
+            <div className="grid gap-3 pt-8 border-t border-border/50">
+              <div className="flex items-center gap-3 text-sm">
+                <Gift className="w-5 h-5 text-emerald-500" />
+                <span className="text-muted-foreground">Não tem conta? <Link to="/sign-up" className="text-emerald-500 font-medium hover:underline">Teste grátis</Link> com 1 correção</span>
               </div>
-              <div>
-                <div className="text-3xl font-bold text-foreground">5</div>
-                <div className="text-sm text-muted-foreground">Competências</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-foreground">24/7</div>
-                <div className="text-sm text-muted-foreground">Disponível</div>
+              <div className="flex items-center gap-3 text-sm">
+                <Crown className="w-5 h-5 text-primary" />
+                <span className="text-muted-foreground">Plano Pro: <span className="text-foreground font-medium">R$ 29,90/mês</span> = 20 correções</span>
               </div>
             </div>
           </div>

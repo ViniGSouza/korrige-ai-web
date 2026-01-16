@@ -2,14 +2,14 @@ import Logo from "@/brand/Logo";
 import { SignUpForm } from "../components";
 import { ThemeToggle } from "@/shared/components/ui/theme-toggle";
 import { Link } from "react-router-dom";
-import { Sparkles, CheckCircle, GraduationCap, Shield, Zap } from "lucide-react";
+import { CheckCircle, Shield, Zap, Gift, Crown } from "lucide-react";
 
 export const SignUpPage = () => {
   const features = [
-    "Correção detalhada por IA",
-    "Feedback nas 5 competências",
-    "Histórico de evolução",
-    "Acesso 24 horas por dia",
+    "1 correção grátis para testar",
+    "Análise completa das 5 competências",
+    "Feedback detalhado com IA",
+    "Resultado em minutos",
   ];
 
   return (
@@ -29,20 +29,20 @@ export const SignUpPage = () => {
         <div className="relative z-10 flex flex-col justify-center px-12 py-16 max-w-xl ml-auto">
           <div className="space-y-8">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                <GraduationCap className="w-4 h-4" />
-                Preparação ENEM
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium">
+                <Gift className="w-4 h-4" />
+                1 Redação Grátis
               </div>
 
               <h2 className="text-3xl font-bold font-display text-foreground leading-tight">
-                Comece sua jornada{" "}
+                Teste nossa correção{" "}
                 <span className="font-serif italic text-primary">
-                  rumo ao 1000
+                  sem pagar nada
                 </span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Crie sua conta gratuita e tenha acesso a correções ilimitadas
-                com inteligência artificial.
+                Crie sua conta grátis e ganhe <strong className="text-foreground">1 correção completa</strong> para 
+                experimentar nossa IA. Gostou? Assine o plano Pro por R$ 29,90/mês.
               </p>
             </div>
 
@@ -62,18 +62,37 @@ export const SignUpPage = () => {
               ))}
             </div>
 
-            {/* Card de destaque */}
-            <div className="p-6 rounded-2xl bg-card border border-border/50 mt-8">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Sparkles className="w-5 h-5 text-primary" />
+            {/* Cards de planos */}
+            <div className="grid gap-4 mt-8">
+              <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-emerald-500/10">
+                    <Gift className="w-5 h-5 text-emerald-500" />
+                  </div>
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground">Conta Gratuita</span>
+                    <span className="text-xs text-muted-foreground ml-2">Você está aqui</span>
+                  </div>
                 </div>
-                <span className="font-semibold text-foreground">Tecnologia de ponta</span>
+                <p className="text-muted-foreground text-sm">
+                  1 redação grátis para você testar e conhecer
+                </p>
               </div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                Nossa IA foi treinada com milhares de redações corrigidas por
-                especialistas, garantindo feedback preciso e construtivo.
-              </p>
+              
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Crown className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground">Plano Pro</span>
+                    <span className="text-xs text-primary ml-2">R$ 29,90/mês</span>
+                  </div>
+                </div>
+                <p className="text-muted-foreground text-sm">
+                  20 correções por mês + histórico completo
+                </p>
+              </div>
             </div>
 
             {/* Badges de confiança */}
@@ -99,14 +118,18 @@ export const SignUpPage = () => {
         <div className="w-full max-w-md space-y-8 animate-fade-in-up">
           {/* Logo e título */}
           <div className="text-center">
-            <Link to="/" className="inline-block mb-8 transition-transform hover:scale-105">
+            <Link to="/" className="inline-block mb-6 transition-transform hover:scale-105">
               <Logo className="h-12 mx-auto" />
             </Link>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-medium mb-4">
+              <Gift className="w-3.5 h-3.5" />
+              1 correção grátis incluída
+            </div>
             <h1 className="text-3xl font-bold text-foreground font-display">
-              Crie sua conta
+              Crie sua conta grátis
             </h1>
-            <p className="mt-2 text-muted-foreground">
-              Comece a melhorar suas redações hoje
+            <p className="mt-2 text-muted-foreground text-sm">
+              Cadastre-se e ganhe sua primeira correção sem custo
             </p>
           </div>
 

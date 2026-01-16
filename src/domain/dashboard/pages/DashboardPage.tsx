@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   FileText,
   Clock,
@@ -24,11 +25,28 @@ import {
 import { useEssays } from "@/domain/essays/hooks";
 import { useAuthUser } from "@/domain/auth/hooks";
 import { UsageMeter, SubscriptionBadge } from "@/domain/subscription/components";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/shared/lib/toast";
+import { authService } from "@/domain/auth/services";
 
 export function DashboardPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryClient = useQueryClient();
   const { data: essaysData, isLoading } = useEssays();
   const { data: user } = useAuthUser();
+
+  useEffect(() => {
+    const checkoutStatus = searchParams.get("checkout");
+    if (checkoutStatus === "success") {
+      toast.success("Assinatura realizada com sucesso! Bem-vindo ao Pro!");
+      authService.getMe().then(() => {
+        queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
+      });
+      searchParams.delete("checkout");
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, setSearchParams, queryClient]);
 
   const essays = essaysData?.essays || [];
   const totalEssays = essays.length;

@@ -8,7 +8,7 @@ import { useSubscription } from "../hooks/useSubscription";
 
 export function PricingPage() {
   const navigate = useNavigate();
-  const { user } = useAuthUser();
+  const { data: user } = useAuthUser();
   const { isSubscriber } = useSubscription();
   const { mutate: createCheckout, isPending } = useCheckout();
 

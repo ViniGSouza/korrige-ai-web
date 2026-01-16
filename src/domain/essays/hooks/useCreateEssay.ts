@@ -27,6 +27,7 @@ export function useCreateEssay() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["essays"] });
+      queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
       queryClient.refetchQueries({ queryKey: ["essays"] });
     },
   });

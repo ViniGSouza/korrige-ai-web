@@ -2,7 +2,7 @@ import { useAuthUser } from "@/domain/auth/hooks";
 import type { Subscription } from "../types";
 
 export function useSubscription(): Subscription {
-  const { user } = useAuthUser();
+  const { data: user } = useAuthUser();
 
   if (!user) {
     return {

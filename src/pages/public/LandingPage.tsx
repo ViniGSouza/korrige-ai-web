@@ -12,6 +12,10 @@ import {
   PenTool,
   Target,
   BookOpen,
+  Crown,
+  Gift,
+  Check,
+  X,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { ThemeToggle } from "@/shared/components/ui/theme-toggle";
@@ -139,18 +143,24 @@ export function LandingPage() {
               className="text-lg px-8 py-7 shadow-xl group"
               onClick={() => navigate("/sign-up")}
             >
-              Começar Gratuitamente
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              Testar Grátis
+              <Gift className="ml-2 h-5 w-5 group-hover:scale-110 transition-transform" />
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="text-lg px-8 py-7 bg-card border-border text-foreground hover:bg-muted hover:text-foreground"
-              onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => document.getElementById("pricing")?.scrollIntoView({ behavior: "smooth" })}
             >
-              Como Funciona
+              Ver Planos
             </Button>
           </div>
+          
+          {/* Aviso de gratuito */}
+          <p className="text-center text-sm text-muted-foreground mt-4 animate-stagger-reveal animation-delay-400">
+            <Gift className="inline w-4 h-4 mr-1" />
+            Crie sua conta grátis e ganhe <strong className="text-foreground">1 correção gratuita</strong> para experimentar
+          </p>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-20 max-w-2xl mx-auto">
@@ -287,15 +297,154 @@ export function LandingPage() {
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <Button
-              size="lg"
-              className="px-8 py-7 shadow-xl group"
-              onClick={() => navigate("/sign-up")}
-            >
-              Começar a Corrigir
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="container mx-auto px-6 py-20">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <Crown className="w-4 h-4" />
+              Planos
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-display">
+              Comece <span className="font-serif italic">grátis</span>, evolua com o Pro
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Teste nossa correção com IA gratuitamente. Gostou? Assine e continue evoluindo.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Plano Gratuito */}
+            <div className="relative p-8 rounded-2xl glass border border-white/10 hover-lift-glow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10">
+                  <Gift className="w-6 h-6 text-emerald-500" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Gratuito</h3>
+                  <p className="text-sm text-muted-foreground">Para experimentar</p>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-bold">R$ 0</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Crie sua conta sem custo
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm"><strong>1 redação grátis</strong> para testar</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Correção completa com IA</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Avaliação das 5 competências</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Feedback detalhado</span>
+                </li>
+                <li className="flex items-start gap-3 text-muted-foreground">
+                  <X className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Correções adicionais</span>
+                </li>
+              </ul>
+
+              <Button
+                variant="outline"
+                className="w-full"
+                size="lg"
+                onClick={() => navigate("/sign-up")}
+              >
+                Criar Conta Grátis
+              </Button>
+            </div>
+
+            {/* Plano Pro */}
+            <div className="relative p-8 rounded-2xl bg-gradient-to-br from-primary/5 via-primary/10 to-accent/5 border-2 border-primary shadow-xl">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-medium shadow-lg">
+                  <Sparkles className="w-4 h-4" />
+                  Mais Popular
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 mb-6 mt-2">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-primary to-accent">
+                  <Crown className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Pro</h3>
+                  <p className="text-sm text-muted-foreground">Para quem quer evoluir</p>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-bold">R$ 29,90</span>
+                  <span className="text-muted-foreground">/mês</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Menos de R$ 1,50 por redação
+                </p>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm"><strong>20 redações por mês</strong></span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Correção completa com IA</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Avaliação das 5 competências</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Feedback detalhado e personalizado</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Histórico completo de correções</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">Cancele quando quiser</span>
+                </li>
+              </ul>
+
+              <Button
+                className="w-full shadow-lg"
+                size="lg"
+                onClick={() => navigate("/sign-up")}
+              >
+                Começar com Pro
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/10 text-sm">
+              <Gift className="w-4 h-4 text-emerald-500" />
+              <span className="text-muted-foreground">
+                Crie sua conta grátis, teste com <strong className="text-foreground">1 redação</strong>, depois decida se quer assinar
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -304,28 +453,36 @@ export function LandingPage() {
       <section className="container mx-auto px-6 py-20">
         <div className="max-w-4xl mx-auto">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary/90 to-accent p-12 md:p-16 text-center">
-            {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl" />
             <div className="absolute inset-0 pattern-dots opacity-10" />
             
             <div className="relative z-10 space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium backdrop-blur-sm">
+                <Gift className="w-4 h-4" />
+                1 correção grátis para você testar
+              </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white font-display leading-tight">
                 Pronto para sua
                 <br />
                 <span className="font-serif italic font-normal">próxima conquista?</span>
               </h2>
               <p className="text-xl text-white/80 max-w-xl mx-auto">
-                Junte-se a estudantes que já estão melhorando suas notas com o KorrigeAI
+                Crie sua conta, envie sua primeira redação <strong>grátis</strong> e veja a qualidade da nossa correção com IA
               </p>
-              <Button
-                size="lg"
-                className="text-lg px-10 py-7 bg-white text-primary hover:bg-white/90 shadow-xl group font-semibold"
-                onClick={() => navigate("/sign-up")}
-              >
-                Criar Conta Gratuita
-                <Sparkles className="ml-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button
+                  size="lg"
+                  className="text-lg px-10 py-7 bg-white text-primary hover:bg-white/90 shadow-xl group font-semibold"
+                  onClick={() => navigate("/sign-up")}
+                >
+                  Testar Grátis Agora
+                  <Gift className="ml-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+                </Button>
+              </div>
+              <p className="text-sm text-white/60">
+                Sem cartão de crédito • Cancele quando quiser
+              </p>
             </div>
           </div>
         </div>
