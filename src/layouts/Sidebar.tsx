@@ -4,6 +4,8 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
+  Plus,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/shared/components/ui/button";
@@ -37,24 +39,28 @@ export const Sidebar = () => {
   return (
     <aside
       className={cn(
-        "flex sticky top-0 flex-col h-screen border-r transition-all duration-300 bg-card border-border/40",
-        collapsed ? "w-20" : "w-64"
+        "flex sticky top-0 flex-col h-screen border-r transition-all duration-300 bg-card/50 backdrop-blur-xl border-border/40",
+        collapsed ? "w-20" : "w-72"
       )}
     >
-      <div className="flex justify-between items-center mx-auto h-16 border-b border-border/40">
+      {/* Header */}
+      <div className="flex items-center h-16 px-4 border-b border-border/40">
         {!collapsed && (
           <Link
             to="/app/dashboard"
-            className="flex items-center px-2 transition-transform hover:scale-105"
+            className="flex items-center flex-1 transition-transform hover:scale-[1.02]"
           >
-            <Logo className="w-40" />
+            <Logo className="w-36" />
           </Link>
         )}
 
         <Button
           variant="ghost"
           size="icon"
-          className="w-8 h-8 rounded-lg hover:bg-accent shrink-0"
+          className={cn(
+            "w-8 h-8 rounded-lg hover:bg-accent/50 shrink-0 transition-colors",
+            collapsed && "mx-auto"
+          )}
           onClick={() => setCollapsed(!collapsed)}
         >
           {collapsed ? (
@@ -65,7 +71,40 @@ export const Sidebar = () => {
         </Button>
       </div>
 
-      <nav className="overflow-y-auto flex-1 p-3 space-y-1">
+      {/* Quick action */}
+      {!collapsed && (
+        <div className="p-4">
+          <Link to="/app/essays/new">
+            <Button className="w-full group">
+              <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform duration-300" />
+              Nova Redação
+            </Button>
+          </Link>
+        </div>
+      )}
+
+      {collapsed && (
+        <div className="p-3">
+          <Link to="/app/essays/new">
+            <Button 
+              size="icon" 
+              className="w-full h-10"
+              title="Nova Redação"
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+          </Link>
+        </div>
+      )}
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-3 py-2 space-y-1">
+        {!collapsed && (
+          <p className="px-3 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+            Menu
+          </p>
+        )}
+        
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = location.pathname.startsWith(item.path);
@@ -75,10 +114,10 @@ export const Sidebar = () => {
               key={item.path}
               to={item.path}
               className={cn(
-                "flex items-center gap-3 rounded-lg px-2.5 py-2.5 text-sm font-medium transition-all group relative",
+                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all group relative",
                 isActive
                   ? "bg-primary text-primary-foreground shadow-md"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
               )}
               title={collapsed ? item.label : undefined}
             >
@@ -92,7 +131,7 @@ export const Sidebar = () => {
               {!collapsed && <span className="flex-1">{item.label}</span>}
 
               {!collapsed && item.badge !== undefined && (
-                <span className="flex justify-center items-center w-5 h-5 text-xs rounded-full bg-muted">
+                <span className="flex justify-center items-center px-2 h-5 text-xs font-medium rounded-full bg-primary/10 text-primary">
                   {item.badge}
                 </span>
               )}
@@ -101,13 +140,30 @@ export const Sidebar = () => {
         })}
       </nav>
 
+      {/* Footer */}
       <div className="p-3 border-t border-border/40">
-        {!collapsed && (
-          <div className="p-3 text-xs rounded-lg bg-muted/50">
-            <p className="font-medium text-center text-muted-foreground">
-              v1.0.0
+        {!collapsed ? (
+          <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-foreground">Dica</span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Pratique regularmente para melhorar sua pontuação no ENEM.
             </p>
           </div>
+        ) : (
+          <div className="flex justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-primary" />
+            </div>
+          </div>
+        )}
+        
+        {!collapsed && (
+          <p className="mt-3 text-xs text-center text-muted-foreground/60">
+            v1.0.0
+          </p>
         )}
       </div>
     </aside>

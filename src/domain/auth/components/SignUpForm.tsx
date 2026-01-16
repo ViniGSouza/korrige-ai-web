@@ -6,6 +6,7 @@ import { signUpSchema, type SignUpFormData } from "../schemas/signUp.schema";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
+import { FieldError } from "@/shared/components/FieldError";
 import {
   Card,
   CardContent,
@@ -24,7 +25,6 @@ export const SignUpForm = () => {
   const {
     mutateAsync: signUp,
     isPending: isRegistering,
-    error: signUpError,
   } = useSignUp();
 
   const {
@@ -52,14 +52,14 @@ export const SignUpForm = () => {
       } else {
         navigate("/login");
       }
-    } catch (error) {
-      console.error("Erro no registro:", error);
+    } catch {
+      // Erro já é tratado pelo interceptor com toast
     }
   };
 
   if (registeredEmail) {
     return (
-      <Card className="w-full max-w-md shadow-xl border border-border bg-card backdrop-blur-sm">
+      <Card className="w-full max-w-md shadow-none border-0 bg-transparent">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center">
             Registro realizado!
@@ -85,7 +85,7 @@ export const SignUpForm = () => {
   }
 
   return (
-    <Card className="w-full max-w-md shadow-xl border border-border bg-card backdrop-blur-sm">
+    <Card className="w-full max-w-md shadow-none border-0 bg-transparent">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Criar conta</CardTitle>
         <CardDescription>
@@ -102,10 +102,10 @@ export const SignUpForm = () => {
               placeholder="João Silva"
               {...register("name")}
               disabled={isRegistering}
+              aria-invalid={!!errors.name}
+              className={errors.name ? "border-destructive" : ""}
             />
-            {errors.name && (
-              <p className="text-sm text-destructive">{errors.name.message}</p>
-            )}
+            <FieldError message={errors.name?.message} />
           </div>
 
           <div className="space-y-2">
@@ -116,28 +116,11 @@ export const SignUpForm = () => {
               placeholder="seu@email.com"
               {...register("email")}
               disabled={isRegistering}
+              aria-invalid={!!errors.email}
+              className={errors.email ? "border-destructive" : ""}
             />
-            {errors.email && (
-              <p className="text-sm text-destructive">{errors.email.message}</p>
-            )}
+            <FieldError message={errors.email?.message} />
           </div>
-
-          {/* TODO: Add phone number input */}
-          {/* <div className="space-y-2">
-            <Label htmlFor="phoneNumber">Telefone (opcional)</Label>
-            <Input
-              id="phoneNumber"
-              type="tel"
-              placeholder="+55 11 99999-9999"
-              {...register("phoneNumber")}
-              disabled={isRegistering}
-            />
-            {errors.phoneNumber && (
-              <p className="text-sm text-destructive">
-                {errors.phoneNumber.message}
-              </p>
-            )}
-          </div> */}
 
           <div className="space-y-2">
             <Label htmlFor="password">Senha</Label>
@@ -147,12 +130,10 @@ export const SignUpForm = () => {
               placeholder="••••••••"
               {...register("password")}
               disabled={isRegistering}
+              aria-invalid={!!errors.password}
+              className={errors.password ? "border-destructive" : ""}
             />
-            {errors.password && (
-              <p className="text-sm text-destructive">
-                {errors.password.message}
-              </p>
-            )}
+            <FieldError message={errors.password?.message} />
             <p className="text-xs text-muted-foreground">
               Mínimo 8 caracteres, com maiúscula, minúscula, número e especial
             </p>
@@ -166,19 +147,11 @@ export const SignUpForm = () => {
               placeholder="••••••••"
               {...register("confirmPassword")}
               disabled={isRegistering}
+              aria-invalid={!!errors.confirmPassword}
+              className={errors.confirmPassword ? "border-destructive" : ""}
             />
-            {errors.confirmPassword && (
-              <p className="text-sm text-destructive">
-                {errors.confirmPassword.message}
-              </p>
-            )}
+            <FieldError message={errors.confirmPassword?.message} />
           </div>
-
-          {signUpError && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {signUpError.message}
-            </div>
-          )}
 
           <Button type="submit" className="w-full" disabled={isRegistering}>
             {isRegistering ? "Criando conta..." : "Criar conta"}

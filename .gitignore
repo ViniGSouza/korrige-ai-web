@@ -37,3 +37,4 @@ coverage
 .parcel-cache
 .eslintcache
 .DS_Store
+*.cursor

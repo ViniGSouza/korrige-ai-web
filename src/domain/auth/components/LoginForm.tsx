@@ -6,6 +6,7 @@ import { loginSchema, type LoginFormData } from "../schemas/login.schema";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
+import { FieldError } from "@/shared/components/FieldError";
 import {
   Card,
   CardContent,
@@ -19,7 +20,6 @@ export const LoginForm = () => {
   const {
     mutateAsync: login,
     isPending: isLoggingIn,
-    error: loginError,
   } = useLogin();
 
   const {
@@ -34,13 +34,13 @@ export const LoginForm = () => {
     try {
       await login(data);
       navigate("/app/dashboard");
-    } catch (error) {
-      console.error("Erro no login:", error);
+    } catch {
+      // Erro já é tratado pelo interceptor com toast
     }
   };
 
   return (
-    <Card className="w-full max-w-md shadow-xl border border-border bg-card backdrop-blur-sm">
+    <Card className="w-full max-w-md shadow-none border-0 bg-transparent">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl font-bold">Bem-vindo de volta</CardTitle>
         <CardDescription>
@@ -57,10 +57,10 @@ export const LoginForm = () => {
               placeholder="seu@email.com"
               {...register("email")}
               disabled={isLoggingIn}
+              aria-invalid={!!errors.email}
+              className={errors.email ? "border-destructive" : ""}
             />
-            {errors.email && (
-              <p className="text-sm text-destructive">{errors.email.message}</p>
-            )}
+            <FieldError message={errors.email?.message} />
           </div>
 
           <div className="space-y-2">
@@ -71,19 +71,11 @@ export const LoginForm = () => {
               placeholder="••••••"
               {...register("password")}
               disabled={isLoggingIn}
+              aria-invalid={!!errors.password}
+              className={errors.password ? "border-destructive" : ""}
             />
-            {errors.password && (
-              <p className="text-sm text-destructive">
-                {errors.password.message}
-              </p>
-            )}
+            <FieldError message={errors.password?.message} />
           </div>
-
-          {loginError && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {loginError.message}
-            </div>
-          )}
 
           <Button type="submit" className="w-full" disabled={isLoggingIn}>
             {isLoggingIn ? "Entrando..." : "Entrar"}

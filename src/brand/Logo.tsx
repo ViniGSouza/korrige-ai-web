@@ -1,97 +1,154 @@
 import { useTheme } from "@/shared/hooks/useTheme";
 
-const Logo = (props: React.SVGProps<SVGSVGElement>) => {
+interface LogoProps extends React.SVGProps<SVGSVGElement> {
+  variant?: "full" | "icon" | "text";
+  showSlogan?: boolean;
+}
+
+const Logo = ({ variant = "full", showSlogan = true, ...props }: LogoProps) => {
   const { theme } = useTheme();
+  const isDark = theme === "dark";
 
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 50" {...props}>
-      <defs>
-        {/* Gradiente Roxo Premium */}
-        <linearGradient
-          id="corrigeGradient"
-          x1="0%"
-          y1="0%"
-          x2="100%"
-          y2="100%"
+  // Cores alinhadas com o design system (--primary oklch)
+  // Light: oklch(0.50 0.24 280) ≈ #6D28D9
+  // Dark: oklch(0.72 0.20 280) ≈ #A78BFA
+  const primaryColor = isDark ? "#A78BFA" : "#6D28D9";
+  const textColor = isDark ? "#F8FAFC" : "#0F172A";
+  const mutedColor = isDark ? "#94A3B8" : "#64748B";
+
+  // Renderiza apenas o ícone
+  if (variant === "icon") {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" {...props}>
+        {/* Fundo com cantos arredondados */}
+        <rect x="2" y="2" width="36" height="36" rx="10" fill={primaryColor} />
+
+        {/* Ícone de caneta estilizada com check */}
+        <g transform="translate(10, 10)">
+          {/* Caneta */}
+          <path
+            d="M14 2L18 6L6 18L2 20L4 16L14 2Z"
+            fill="white"
+            fillOpacity="0.95"
+          />
+          {/* Linha da caneta */}
+          <path
+            d="M14 2L18 6"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            fill="none"
+          />
+          {/* Check integrado */}
+          <path
+            d="M6 12L9 15L15 7"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            opacity="0.9"
+          />
+        </g>
+      </svg>
+    );
+  }
+
+  // Renderiza apenas o texto
+  if (variant === "text") {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" {...props}>
+        <text
+          x="0"
+          y="30"
+          fontFamily="'Plus Jakarta Sans', system-ui, sans-serif"
+          fontSize="26"
+          fontWeight="800"
+          letterSpacing="-1"
+          fill={textColor}
         >
-          <stop offset="0%" style={{ stopColor: "#8B5CF6", stopOpacity: 1 }} />
-          <stop
-            offset="100%"
-            style={{ stopColor: "#A855F7", stopOpacity: 1 }}
+          Korrige
+          <tspan fill={primaryColor}>AI</tspan>
+        </text>
+
+        {showSlogan && (
+          <text
+            x="2"
+            y="44"
+            fontFamily="'Plus Jakarta Sans', system-ui, sans-serif"
+            fontSize="9"
+            fontWeight="600"
+            letterSpacing="1.5"
+            fill={mutedColor}
+          >
+            CORREÇÃO INTELIGENTE
+          </text>
+        )}
+      </svg>
+    );
+  }
+
+  // Versão completa (ícone + texto)
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" {...props}>
+      {/* Ícone */}
+      <g transform="translate(0, 5)">
+        {/* Fundo com cantos arredondados */}
+        <rect x="2" y="2" width="36" height="36" rx="10" fill={primaryColor} />
+
+        {/* Ícone de caneta estilizada */}
+        <g transform="translate(10, 10)">
+          <path
+            d="M14 2L18 6L6 18L2 20L4 16L14 2Z"
+            fill="white"
+            fillOpacity="0.95"
           />
-        </linearGradient>
-
-        {/* Gradiente Verde para Check */}
-        <linearGradient id="checkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: "#34D399", stopOpacity: 1 }} />
-          <stop
-            offset="100%"
-            style={{ stopColor: "#10B981", stopOpacity: 1 }}
+          <path
+            d="M14 2L18 6"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            fill="none"
           />
-        </linearGradient>
-      </defs>
-
-      {/* Container do Ícone - Caneta com Check */}
-      <g transform="translate(8, 8)">
-        {/* Círculo de fundo do ícone */}
-        <circle
-          cx="17"
-          cy="17"
-          r="17"
-          fill="url(#corrigeGradient)"
-          opacity="0.1"
-        />
-
-        {/* Caneta (Pen) */}
-        <path
-          d="M 20 8 L 26 14 L 14 26 L 8 28 L 10 22 Z"
-          fill="url(#corrigeGradient)"
-          stroke={theme === "dark" ? "#fff" : "#1e293b"}
-          strokeWidth="0.5"
-        />
-        <path
-          d="M 26 14 L 20 8 L 22 6 L 28 12 Z"
-          fill="url(#corrigeGradient)"
-          opacity="0.8"
-        />
-
-        {/* Check Mark sobreposto */}
-        <path
-          d="M 12 18 L 16 22 L 24 12"
-          fill="none"
-          stroke="url(#checkGradient)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+          <path
+            d="M6 12L9 15L15 7"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            opacity="0.9"
+          />
+        </g>
       </g>
 
-      {/* Texto "KorrigeAI" */}
+      {/* Texto */}
       <text
-        x="52"
-        y="32"
-        fontFamily="system-ui, -apple-system, 'Segoe UI', sans-serif"
-        fontSize="22"
-        fontWeight="700"
+        x="48"
+        y="30"
+        fontFamily="'Plus Jakarta Sans', system-ui, sans-serif"
+        fontSize="24"
+        fontWeight="800"
         letterSpacing="-0.5"
-        fill={theme === "dark" ? "#f8fafc" : "#0f172a"}
+        fill={textColor}
       >
         Korrige
-        <tspan fill="url(#corrigeGradient)">AI</tspan>
+        <tspan fill={primaryColor}>AI</tspan>
       </text>
 
-      {/* Slogan pequeno (opcional) */}
-      <text
-        x="54"
-        y="42"
-        fontFamily="system-ui, -apple-system, sans-serif"
-        fontSize="8"
-        fontWeight="500"
-        letterSpacing="0.5"
-        fill={theme === "dark" ? "#94a3b8" : "#64748b"}
-      >
-        CORREÇÃO INTELIGENTE
-      </text>
+      {showSlogan && (
+        <text
+          x="50"
+          y="43"
+          fontFamily="'Plus Jakarta Sans', system-ui, sans-serif"
+          fontSize="8"
+          fontWeight="600"
+          letterSpacing="1.2"
+          fill={mutedColor}
+        >
+          CORREÇÃO INTELIGENTE
+        </text>
+      )}
     </svg>
   );
 };

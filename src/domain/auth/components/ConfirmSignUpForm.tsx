@@ -9,6 +9,7 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
+import { FieldError } from "@/shared/components/FieldError";
 import {
   Card,
   CardContent,
@@ -29,7 +30,6 @@ export const ConfirmSignUpForm = () => {
   const {
     mutateAsync: confirmSignUp,
     isPending: isConfirming,
-    error: confirmError,
   } = useConfirmSignUp();
 
   const {
@@ -51,17 +51,17 @@ export const ConfirmSignUpForm = () => {
       setTimeout(() => {
         navigate("/login");
       }, 2000);
-    } catch (error) {
-      console.error("Erro ao confirmar registro:", error);
+    } catch {
+      // Erro já é tratado pelo interceptor com toast
     }
   };
 
   return (
-    <Card className="w-full max-w-md shadow-xl border border-border bg-card backdrop-blur-sm">
+    <Card className="w-full max-w-md shadow-none border-0 bg-transparent">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Confirme seu email</CardTitle>
+        <CardTitle className="text-2xl font-bold">Confirme seu e-mail</CardTitle>
         <CardDescription>
-          Digite o código de 6 dígitos enviado para seu email
+          Digite o código de 6 dígitos enviado para seu e-mail
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -85,12 +85,10 @@ export const ConfirmSignUpForm = () => {
                 {...register("email")}
                 disabled={isConfirming}
                 readOnly={!!emailFromUrl}
+                aria-invalid={!!errors.email}
+                className={errors.email ? "border-destructive" : ""}
               />
-              {errors.email && (
-                <p className="text-sm text-destructive">
-                  {errors.email.message}
-                </p>
-              )}
+              <FieldError message={errors.email?.message} />
             </div>
 
             <div className="space-y-2">
@@ -102,23 +100,14 @@ export const ConfirmSignUpForm = () => {
                 maxLength={6}
                 {...register("confirmationCode")}
                 disabled={isConfirming}
-                className="text-center text-2xl tracking-widest"
+                aria-invalid={!!errors.confirmationCode}
+                className={`text-center text-2xl tracking-widest ${errors.confirmationCode ? "border-destructive" : ""}`}
               />
-              {errors.confirmationCode && (
-                <p className="text-sm text-destructive">
-                  {errors.confirmationCode.message}
-                </p>
-              )}
+              <FieldError message={errors.confirmationCode?.message} />
               <p className="text-xs text-muted-foreground">
                 Verifique sua caixa de entrada e spam
               </p>
             </div>
-
-            {confirmError && (
-              <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-                {confirmError.message}
-              </div>
-            )}
 
             <Button type="submit" className="w-full" disabled={isConfirming}>
               {isConfirming ? "Confirmando..." : "Confirmar"}

@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthUser, useLogout } from "@/domain/auth/hooks";
 import { Button } from "@/shared/components/ui/button";
 import { ThemeToggle } from "@/shared/components/ui/theme-toggle";
-import { LogOut, User, ChevronDown } from "lucide-react";
+import { LogOut, User, ChevronDown, Settings, HelpCircle } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -18,61 +18,102 @@ export const AppLayout = () => {
     navigate("/login");
   };
 
+  // Pegar iniciais do nome
+  const getInitials = (name?: string) => {
+    if (!name) return "U";
+    const parts = name.split(" ");
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    }
+    return name[0].toUpperCase();
+  };
+
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-background">
       <Sidebar />
 
       <div className="flex overflow-hidden flex-col flex-1">
-        <header className="sticky top-0 z-40 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex justify-between items-center px-6 h-16">
+        {/* Header */}
+        <header className="sticky top-0 z-40 h-16 border-b border-border/40 bg-background/80 backdrop-blur-xl">
+          <div className="flex justify-between items-center px-6 h-full">
             <div className="flex-1" />
 
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-3 items-center">
               <ThemeToggle />
 
+              {/* User menu */}
               <div className="relative">
                 <Button
                   variant="ghost"
-                  className="flex gap-3 items-center h-10 hover:bg-accent group"
+                  className="flex gap-3 items-center h-10 px-3 hover:bg-accent/50 group rounded-xl"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                 >
-                  <div className="flex justify-center items-center w-8 h-8 bg-gradient-to-br rounded-full ring-2 from-primary/20 to-primary/5 text-primary ring-primary/10 group-hover:bg-primary group-hover:text-primary-foreground group-hover:ring-primary/30 transition-all">
-                    <User className="w-4 h-4" />
+                  {/* Avatar com iniciais */}
+                  <div className="flex justify-center items-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent text-white text-sm font-semibold shadow-md shadow-primary/20">
+                    {getInitials(user?.name)}
                   </div>
                   <div className="hidden text-left md:block">
-                    <p className="text-sm font-medium leading-none">
+                    <p className="text-sm font-medium leading-none text-foreground">
                       {user?.name}
                     </p>
                   </div>
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 transition-transform text-muted-foreground group-hover:text-foreground",
+                      "h-4 w-4 transition-transform text-muted-foreground",
                       userMenuOpen && "rotate-180"
                     )}
                   />
                 </Button>
 
+                {/* Dropdown menu */}
                 {userMenuOpen && (
                   <>
                     <div
                       className="fixed inset-0 z-40"
                       onClick={() => setUserMenuOpen(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-64 rounded-lg border bg-card p-1.5 shadow-lg animate-in fade-in-0 zoom-in-95 z-50">
-                      <div className="px-3 py-3 mb-1">
-                        <p className="text-sm font-semibold">{user?.name}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {user?.email}
-                        </p>
+                    <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-border bg-card p-2 shadow-xl animate-in fade-in-0 zoom-in-95 z-50">
+                      {/* User info */}
+                      <div className="px-3 py-4 mb-2 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5">
+                        <div className="flex items-center gap-3">
+                          <div className="flex justify-center items-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent text-white text-lg font-semibold shadow-md">
+                            {getInitials(user?.name)}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-foreground truncate">{user?.name}</p>
+                            <p className="text-xs text-muted-foreground truncate">
+                              {user?.email}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="my-1 h-px bg-border" />
+
+                      {/* Menu items */}
+                      <div className="space-y-1">
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                          <User className="w-4 h-4" />
+                          Meu Perfil
+                        </button>
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                          <Settings className="w-4 h-4" />
+                          Configurações
+                        </button>
+                        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">
+                          <HelpCircle className="w-4 h-4" />
+                          Ajuda
+                        </button>
+                      </div>
+
+                      <div className="my-2 h-px bg-border/40" />
+
+                      {/* Logout */}
                       <Button
                         variant="ghost"
-                        className="gap-2 justify-start w-full text-destructive hover:text-destructive hover:bg-destructive/10"
+                        className="w-full justify-start gap-3 text-destructive hover:text-destructive hover:bg-destructive/10 rounded-xl"
                         onClick={handleLogout}
                       >
                         <LogOut className="w-4 h-4" />
-                        Sair
+                        Sair da conta
                       </Button>
                     </div>
                   </>
@@ -82,8 +123,9 @@ export const AppLayout = () => {
           </div>
         </header>
 
-        <main className="overflow-y-auto flex-1 p-6 bg-background">
-          <div className="mx-auto max-w-7xl">
+        {/* Main content */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="mx-auto max-w-7xl p-6">
             <Outlet />
           </div>
         </main>

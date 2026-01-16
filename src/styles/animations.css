@@ -1,3 +1,22 @@
+/* ============================================
+   ANIMAÇÕES PADRONIZADAS - KorrigeAI
+   Curva de easing padrão: cubic-bezier(0.22, 1, 0.36, 1)
+   ============================================ */
+
+/* Variáveis de timing */
+:root {
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.3s;
+  --duration-normal: 0.5s;
+  --duration-slow: 0.7s;
+}
+
+/* ============================================
+   ANIMAÇÕES DE ENTRADA
+   ============================================ */
+
+/* Fade In simples */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -7,7 +26,96 @@
   }
 }
 
+.animate-fade-in {
+  animation: fadeIn var(--duration-fast) var(--ease-out-expo) forwards;
+}
+
+/* Fade In de baixo para cima */
 @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+/* Fade In de cima para baixo */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+/* Scale In */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--duration-fast) var(--ease-out-expo) forwards;
+}
+
+/* Slide In da direita */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+/* Slide In da esquerda */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft var(--duration-normal) var(--ease-out-expo) forwards;
+}
+
+/* ============================================
+   ANIMAÇÕES DE DESTAQUE
+   ============================================ */
+
+/* Stagger reveal - para listas e cards */
+@keyframes staggerReveal {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -18,10 +126,16 @@
   }
 }
 
-@keyframes fadeInDown {
+.animate-stagger-reveal {
+  animation: staggerReveal var(--duration-normal) var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+/* Hero title - entrada dramática */
+@keyframes heroTitle {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -29,69 +143,83 @@
   }
 }
 
-@keyframes scaleIn {
+.animate-hero-title {
+  animation: heroTitle var(--duration-slow) var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+/* Number reveal - para estatísticas */
+@keyframes numberReveal {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: translateY(12px);
   }
   to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-number-reveal {
+  animation: numberReveal var(--duration-fast) var(--ease-out-expo) forwards;
+  opacity: 0;
+}
+
+/* Icon pop - entrada de ícones */
+@keyframes iconPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.animate-icon-pop {
+  animation: iconPop var(--duration-fast) var(--ease-out-expo) forwards;
+  opacity: 0;
 }
 
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+/* ============================================
+   ANIMAÇÕES CONTÍNUAS
+   ============================================ */
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-@keyframes bounce {
-  0%, 100% {
+/* Float sutil - para elementos decorativos */
+@keyframes float {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
+.animate-float {
+  animation: float 4s var(--ease-in-out) infinite;
+}
+
+/* Pulse - para notificações */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
   }
-  25% {
-    transform: translateX(-10px);
-  }
-  75% {
-    transform: translateX(10px);
+  50% {
+    opacity: 0.6;
   }
 }
 
+.animate-pulse {
+  animation: pulse 2s var(--ease-in-out) infinite;
+}
+
+/* Spin - para loaders */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -101,196 +229,177 @@
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
-}
-
-.animate-fade-in-down {
-  animation: fadeInDown 0.6s ease-out;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.4s ease-out;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.5s ease-out;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.5s ease-out;
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-bounce {
-  animation: bounce 1s infinite;
-}
-
-.animate-shake {
-  animation: shake 0.5s;
-}
-
 .animate-spin {
   animation: spin 1s linear infinite;
 }
 
+/* Morph - para backgrounds decorativos */
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+  }
+  50% {
+    border-radius: 60% 40% 40% 60% / 60% 60% 40% 40%;
+  }
+}
+
+.animate-morph {
+  animation: morph 12s var(--ease-in-out) infinite;
+}
+
+/* ============================================
+   DELAYS DE ANIMAÇÃO
+   ============================================ */
+
+.animation-delay-0 {
+  animation-delay: 0ms;
+}
+.animation-delay-50 {
+  animation-delay: 50ms;
+}
+.animation-delay-75 {
+  animation-delay: 75ms;
+}
 .animation-delay-100 {
   animation-delay: 100ms;
 }
-
+.animation-delay-150 {
+  animation-delay: 150ms;
+}
 .animation-delay-200 {
   animation-delay: 200ms;
 }
-
+.animation-delay-225 {
+  animation-delay: 225ms;
+}
 .animation-delay-300 {
   animation-delay: 300ms;
 }
-
 .animation-delay-400 {
   animation-delay: 400ms;
 }
-
 .animation-delay-500 {
   animation-delay: 500ms;
 }
-
-.transition-all {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.animation-delay-600 {
+  animation-delay: 600ms;
+}
+.animation-delay-700 {
+  animation-delay: 700ms;
+}
+.animation-delay-800 {
+  animation-delay: 800ms;
 }
 
-.transition-transform {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ============================================
+   TRANSIÇÕES PADRONIZADAS
+   ============================================ */
+
+.transition-smooth {
+  transition: all var(--duration-fast) var(--ease-out-expo);
 }
 
 .transition-colors {
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color var(--duration-fast) var(--ease-out-expo),
+    background-color var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) var(--ease-out-expo);
+}
+
+.transition-transform {
+  transition: transform var(--duration-fast) var(--ease-out-expo);
+}
+
+/* ============================================
+   EFEITOS DE HOVER
+   ============================================ */
+
+.hover-lift {
+  transition: transform var(--duration-fast) var(--ease-out-expo),
+    box-shadow var(--duration-fast) var(--ease-out-expo);
 }
 
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
-              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+}
+
+.hover-lift-glow {
+  transition: transform var(--duration-fast) var(--ease-out-expo),
+    box-shadow var(--duration-fast) var(--ease-out-expo);
+}
+
+.hover-lift-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -12px oklch(0.5 0.24 280 / 0.2);
+}
+
+.dark .hover-lift-glow:hover {
+  box-shadow: 0 16px 32px -12px oklch(0.72 0.2 280 / 0.25);
+}
+
+.hover-scale {
+  transition: transform var(--duration-fast) var(--ease-out-expo);
 }
 
 .hover-scale:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
-.hover-rotate:hover {
-  transform: rotate(5deg);
-}
+/* ============================================
+   SKELETON LOADING
+   ============================================ */
 
-@keyframes skeleton-loading {
+@keyframes shimmer {
   0% {
-    background-position: -200px 0;
+    background-position: -200% 0;
   }
   100% {
-    background-position: calc(200px + 100%) 0;
+    background-position: 200% 0;
   }
 }
 
 .skeleton {
   background: linear-gradient(
     90deg,
-    oklch(0.95 0.01 240) 0%,
+    oklch(0.94 0.01 240) 0%,
     oklch(0.97 0.005 240) 50%,
-    oklch(0.95 0.01 240) 100%
+    oklch(0.94 0.01 240) 100%
   );
-  background-size: 200px 100%;
-  animation: skeleton-loading 1.5s ease-in-out infinite;
+  background-size: 200% 100%;
+  animation: shimmer 1.5s var(--ease-in-out) infinite;
 }
 
 .dark .skeleton {
   background: linear-gradient(
     90deg,
-    oklch(0.20 0.015 250) 0%,
+    oklch(0.2 0.015 250) 0%,
     oklch(0.25 0.02 250) 50%,
-    oklch(0.20 0.015 250) 100%
+    oklch(0.2 0.015 250) 100%
   );
 }
 
-.page-transition-enter {
+/* ============================================
+   PAGE TRANSITIONS
+   ============================================ */
+
+.page-enter {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(12px);
 }
 
-.page-transition-enter-active {
+.page-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.4s, transform 0.4s;
+  transition: opacity var(--duration-fast) var(--ease-out-expo),
+    transform var(--duration-fast) var(--ease-out-expo);
 }
 
-.page-transition-exit {
+.page-exit {
   opacity: 1;
 }
 
-.page-transition-exit-active {
+.page-exit-active {
   opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.scroll-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.gradient-text-animated {
-  background: linear-gradient(
-    90deg,
-    oklch(0.55 0.20 260),
-    oklch(0.70 0.18 285),
-    oklch(0.55 0.20 260)
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-shift 3s ease infinite;
-}
-
-.ripple-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.ripple-effect::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.6);
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.ripple-effect:active::after {
-  width: 300px;
-  height: 300px;
+  transition: opacity var(--duration-fast) var(--ease-out-expo);
 }

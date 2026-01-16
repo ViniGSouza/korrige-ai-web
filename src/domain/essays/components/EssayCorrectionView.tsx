@@ -180,7 +180,7 @@ function CompetencyCard({
         </div>
 
         {/* Pontos Fortes */}
-        {data.strengths.length > 0 && (
+        {data.strengths && data.strengths.length > 0 && (
           <div>
             <h4 className="font-semibold mb-2 flex items-center gap-2 text-green-700">
               <CheckCircle className="h-4 w-4" />
@@ -198,7 +198,7 @@ function CompetencyCard({
         )}
 
         {/* Pontos a Melhorar */}
-        {data.improvements.length > 0 && (
+        {data.improvements && data.improvements.length > 0 && (
           <div>
             <h4 className="font-semibold mb-2 flex items-center gap-2 text-orange-700">
               <TrendingUp className="h-4 w-4" />

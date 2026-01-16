@@ -1,90 +1,109 @@
 import { LoginForm } from "@/domain/auth";
-import { FileText, Sparkles, Target } from "lucide-react";
+import { Sparkles, Target, FileText, CheckCircle } from "lucide-react";
 import Logo from "@/brand/Logo";
 import { ThemeToggle } from "@/shared/components/ui/theme-toggle";
+import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
+  const benefits = [
+    { icon: Sparkles, text: "Correção por IA em minutos" },
+    { icon: Target, text: "5 competências do ENEM" },
+    { icon: FileText, text: "Histórico de redações" },
+    { icon: CheckCircle, text: "Feedback personalizado" },
+  ];
+
   return (
-    <div className="flex min-h-screen bg-background relative">
-      <div className="fixed top-4 right-4 z-50">
+    <div className="min-h-screen flex bg-background">
+      {/* Theme Toggle */}
+      <div className="fixed top-6 right-6 z-50">
         <ThemeToggle />
       </div>
 
-      <div className="flex flex-1 justify-center items-center px-4 py-12 sm:px-6 lg:px-8">
-        <div className="space-y-8 w-full max-w-md">
+      {/* Lado esquerdo - Formulário */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12 lg:px-12 relative">
+        {/* Background sutil */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 -z-10" />
+        
+        <div className="w-full max-w-md space-y-8 animate-fade-in-up">
+          {/* Logo e título */}
           <div className="text-center">
-            <div className="flex justify-center items-center mx-auto mb-4">
-              <Logo />
-            </div>{" "}
-            <p className="mt-2 text-sm text-muted-foreground">
-              Correção inteligente de redações com IA
+            <Link to="/" className="inline-block mb-8 transition-transform hover:scale-105">
+              <Logo className="h-12 mx-auto" />
+            </Link>
+            <h1 className="text-3xl font-bold text-foreground font-display">
+              Bem-vindo de volta
+            </h1>
+            <p className="mt-2 text-muted-foreground">
+              Entre para continuar sua preparação
             </p>
           </div>
 
-          <LoginForm />
+          {/* Formulário */}
+          <div className="p-8 rounded-2xl bg-card shadow-lg">
+            <LoginForm />
+          </div>
 
+          {/* Footer */}
           <p className="text-xs text-center text-muted-foreground">
-            &copy; 2025 KorrigeAI. Todos os direitos reservados.
+            © 2025 KorrigeAI. Todos os direitos reservados.
           </p>
         </div>
       </div>
 
-      <div className="hidden lg:flex lg:flex-1 bg-gradient-to-br from-primary/10 via-primary/5 to-background border-l border-border">
-        <div className="flex flex-col justify-center px-12 py-12">
+      {/* Lado direito - Info */}
+      <div className="hidden lg:flex lg:flex-1 bg-muted/30 border-l border-border/50 relative overflow-hidden">
+        {/* Decoração sutil */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-center px-12 py-16 max-w-xl">
           <div className="space-y-8">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight text-foreground">
-                Correção de redações do ENEM com Inteligência Artificial
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold font-display text-foreground leading-tight">
+                Correção de redações com{" "}
+                <span className="font-serif italic text-primary">
+                  Inteligência Artificial
+                </span>
               </h2>
-              <p className="mt-3 text-lg text-muted-foreground">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 Receba feedback detalhado e melhore suas redações com tecnologia
-                de ponta.
+                de ponta. Sua nota <strong className="text-foreground">1000</strong> começa aqui.
               </p>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex gap-4 items-start">
-                <div className="flex justify-center items-center w-12 h-12 bg-gradient-to-br rounded-xl ring-2 from-primary/20 to-accent/20 ring-primary/20">
-                  <Sparkles className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">
-                    Correção por IA
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Análise detalhada por Agente Especializado seguindo
-                    critérios do ENEM
-                  </p>
-                </div>
-              </div>
+            {/* Benefits list */}
+            <div className="space-y-3 pt-4">
+              {benefits.map((benefit, index) => {
+                const Icon = benefit.icon;
+                return (
+                  <div
+                    key={index}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-card/50 border border-border/30 animate-stagger-reveal"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <span className="font-medium text-foreground">{benefit.text}</span>
+                  </div>
+                );
+              })}
+            </div>
 
-              <div className="flex gap-4 items-start">
-                <div className="flex justify-center items-center w-12 h-12 bg-gradient-to-br rounded-xl ring-2 from-primary/20 to-accent/20 ring-primary/20">
-                  <Target className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">
-                    5 Competências
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Avaliação completa de todas as competências do ENEM com
-                    notas
-                  </p>
-                </div>
+            {/* Stats */}
+            <div className="flex gap-8 pt-8 border-t border-border/50">
+              <div>
+                <div className="text-3xl font-bold text-foreground">1000</div>
+                <div className="text-sm text-muted-foreground">Nota máxima</div>
               </div>
-
-              <div className="flex gap-4 items-start">
-                <div className="flex justify-center items-center w-12 h-12 bg-gradient-to-br rounded-xl ring-2 from-primary/20 to-accent/20 ring-primary/20">
-                  <FileText className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">
-                    Histórico completo
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Acompanhe sua evolução com todas as redações corrigidas
-                  </p>
-                </div>
+              <div>
+                <div className="text-3xl font-bold text-foreground">5</div>
+                <div className="text-sm text-muted-foreground">Competências</div>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-foreground">24/7</div>
+                <div className="text-sm text-muted-foreground">Disponível</div>
               </div>
             </div>
           </div>
