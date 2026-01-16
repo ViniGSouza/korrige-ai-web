@@ -6,6 +6,7 @@ import { LogOut, User, ChevronDown, Settings, HelpCircle } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { SubscriptionBadge } from "@/domain/subscription/components";
 
 export const AppLayout = () => {
   const { data: user } = useAuthUser();
@@ -39,6 +40,7 @@ export const AppLayout = () => {
             <div className="flex-1" />
 
             <div className="flex gap-3 items-center">
+              <SubscriptionBadge variant="compact" />
               <ThemeToggle />
 
               {/* User menu */}

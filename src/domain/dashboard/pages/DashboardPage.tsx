@@ -24,7 +24,7 @@ import {
 } from "@/shared/components/ui/card";
 import { useEssays } from "@/domain/essays/hooks";
 import { useAuthUser } from "@/domain/auth/hooks";
-import { UsageMeter, SubscriptionBadge } from "@/domain/subscription/components";
+import { useSubscription } from "@/domain/subscription/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/shared/lib/toast";
 import { authService } from "@/domain/auth/services";
@@ -35,6 +35,7 @@ export function DashboardPage() {
   const queryClient = useQueryClient();
   const { data: essaysData, isLoading } = useEssays();
   const { data: user } = useAuthUser();
+  const { essaysUsed, essaysLimit, isSubscriber } = useSubscription();
 
   useEffect(() => {
     const checkoutStatus = searchParams.get("checkout");
@@ -167,7 +168,6 @@ export function DashboardPage() {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <SubscriptionBadge />
               <Button
                 onClick={() => navigate("/app/essays/new")}
                 size="lg"
@@ -190,10 +190,7 @@ export function DashboardPage() {
         </section>
 
         {/* Stats Cards com glassmorphism */}
-        <section className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-6">
-          <div className="md:col-span-2 lg:col-span-1">
-            <UsageMeter />
-          </div>
+        <section className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {stats.map((stat) => {
             const Icon = stat.icon;
             return (
@@ -223,8 +220,55 @@ export function DashboardPage() {
                 </CardContent>
               </Card>
             );
-          }).slice(0, 5)}
+          })}
         </section>
+
+        {/* Uso do Plano - Design mais elegante e integrado */}
+        {!isSubscriber && (
+          <section className="animate-stagger-reveal animation-delay-350">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 p-6">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxIDAgNiAyLjY5IDYgNnMtMi42OSA2LTYgNi02LTIuNjktNi02IDIuNjktNiA2LTZ6IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4xKSIvPjwvZz48L3N2Zz4=')] opacity-30" />
+              <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-500/20">
+                    <Sparkles className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">
+                      {essaysUsed} de {essaysLimit} {essaysLimit === 1 ? 'redação gratuita' : 'redações'} utilizada{essaysUsed !== 1 ? 's' : ''}
+                    </p>
+                    <p className="text-white/60 text-sm">
+                      {essaysUsed >= essaysLimit 
+                        ? "Assine o Pro para continuar corrigindo" 
+                        : "Experimente grátis, depois assine para ter 20/mês"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="hidden sm:flex items-center gap-1">
+                    {Array.from({ length: essaysLimit }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`w-3 h-3 rounded-full transition-all ${
+                          i < essaysUsed 
+                            ? 'bg-gradient-to-br from-amber-400 to-orange-500 shadow-sm shadow-amber-400/50' 
+                            : 'bg-white/20'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <Button
+                    onClick={() => navigate("/pricing")}
+                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white border-0 shadow-lg shadow-amber-500/25"
+                  >
+                    <Zap className="mr-2 h-4 w-4" />
+                    Ver Planos
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Como Funciona - Design mais visual */}
         <section className="animate-stagger-reveal animation-delay-400">
